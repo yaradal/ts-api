@@ -15,6 +15,10 @@ const port = 3000;
 
 app.use(bodyParser.text());
 
+app.get("/health", (req: Request, res: Response) => {
+  res.sendStatus(204);
+});
+
 app.post("/", async (req: Request, res: Response) => {
   console.log(req.body);
   let value = await getFromCache(req.body);

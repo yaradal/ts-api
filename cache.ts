@@ -3,8 +3,13 @@ import { createClient, RedisClientType } from "redis";
 let redisCache: RedisClientType;
 
 export async function redisConnect() {
-  redisCache = createClient();
-  redisCache.on("error", (err) => console.log("Redis Client Error", err));
+  redisCache = createClient({
+    socket: {
+      host: process.env.REDIS_HOST || "localhost",
+      port: parseInt(process.env.REDIS_PORT || "6379"),
+    },
+    password: process.env.REDIS_PASSWORD || undefined,
+  });
   await redisCache.connect();
 }
 
